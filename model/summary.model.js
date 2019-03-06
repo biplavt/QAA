@@ -32,13 +32,31 @@ function postTestSummary(input){
 	console.log(values);
 
 	var ourQuery=`Insert into QAA.testData_TB (employeeID, locationID, modelID,Qty,verified) values ('${input.employeeID}',${input.locationID},'${input.modelID}',${input.Qty},0)`;
-	console.log(ourQuery);
+	// console.log(ourQuery);
 	return makeConnection.sqlQueryExecution(ourQuery,mySqlConfig);
 }
 
 function getTestLine(testCaseID){
+	// console.log('testCaseID:',testCaseID);
 	var ourQuery=`select * from QAA.testLine where testID = ${testCaseID}`;
 	return makeConnection.sqlQueryExecution(ourQuery,mySqlConfig);
+}
+
+function postTestline(input){
+	let bulkInsertValues = [];
+
+    input.forEach(criteria => {
+
+        let values = Object.keys(criteria).map(function (_) { return criteria[_]; })
+
+        bulkInsertValues.push(values);
+
+    });
+    // console.log("bulkInsertValues:",bulkInsertValues);
+
+    var ourQuery = `Insert  into testLineData_TB (testID, criteriaID, rangeID,testData) values ?`;
+
+    return makeConnection.sqlQueryExecution(ourQuery,mySqlConfig,bulkInsertValues);
 }
 
 module.exports={
@@ -47,5 +65,6 @@ module.exports={
 	getLocation,
 	getModels,
 	postTestSummary,
-	getTestLine
+	getTestLine,
+	postTestline
 }

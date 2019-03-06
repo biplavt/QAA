@@ -25,7 +25,7 @@ router.route('/v1/QAA/testData').post(QAAController.pTestSummary);
 router.route('/v1/QAA/testDetailByID/:testId').get(QAAController.gTestDetailByTestId);
 
 // WRITE TEST LINE 
-router.route('/v1/QAA/TestLine').post();
+router.route('/v1/QAA/TestLine').post(QAAController.pTestLine);
 
 
 router.route('/v1/QAA/Location').get(QAAController.gLocation);

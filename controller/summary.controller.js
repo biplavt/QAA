@@ -16,7 +16,7 @@ function gTestSummary(req,res){
 function gTestDetailByTestId(req,res){
 	var testDetail=[];
 	QAAModel.getTestDetailByTestId(req.params.testId).then(function(result){
-		console.log('result:',result);
+		// console.log('result:',result);
 		if(typeof result!='undefined'){
 			// res.status(200).send(result);
 			result.forEach(function(test){
@@ -82,14 +82,15 @@ function pTestSummary(req,res){
 		console.log('result1:',result);
 		if(result){
 			console.log('insertId:',result.insertId)
-			return result.insertId;
+			return (result.insertId);
 		}else{
 			throw new Error('Insert Failed');
 		}
 		
 	}).then(function(insertID){
 		let testID=JSON.stringify(insertID,undefined,2);
-		getTestLine(insertID).then(function(criteria){
+		console.log('testID:',testID);
+		QAAModel.getTestLine(insertID).then(function(criteria){
 			if(criteria != []){
 				res.send(criteria);
 			}else{
@@ -101,10 +102,31 @@ function pTestSummary(req,res){
 	})
 }
 
+function pTestLine(req,res){
+	let newTest=req.body.testData;
+	QAAModel.postTestline(newTest).then(function(result){
+		if(typeof result!="undefined"){
+			res.send(result);
+		}
+
+	}).catch(function(error){
+		res.status(400).send(error);
+	})
+}
+
+
+
 function gLocation(req,res){
 	QAAModel.getLocation().then(function(result){
 		if (typeof result != 'undefined'){
-			res.send(result);
+			res.send({
+                    insertID : result.insertId,
+                    serverStatus : result.serverStatus,
+                    message : result.message,
+                    apiStatus : 1
+                });
+		}else{
+			throw new Error('Insert Failed');
 		}
 	}).catch(function(error){
 		res.status(400).send(error);
@@ -121,13 +143,15 @@ function gModels(req,res){
 	})
 }
 
+
 module.exports={
 	gTestSummary,
 	gTestDetailByTestId,
 	pTestSummary,
 	gLocation,
 	gModels,
-	gTestLine
+	gTestLine,
+	pTestLine
 }
 
 

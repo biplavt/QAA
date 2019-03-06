@@ -7,7 +7,7 @@ var sqlQueryExecution=function(ourQuery,config,values){
 
 		var newConnection= mysql.createPool(config.parameters);
 
-		newConnection.query(ourQuery,values,function(error,result){
+		newConnection.query(ourQuery,[values],function(error,result){
 
 			if(error)
 				reject(error);
