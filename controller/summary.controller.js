@@ -144,6 +144,26 @@ function gModels(req,res){
 }
 
 
+function gAllCriteria(req,res){
+	QAAModel.getAllCriteria().then(function(result){
+		if(typeof result!='undefined'){
+			res.send(result);
+		}
+	}).catch(function(error){
+		res.status(400).send(error);
+	})
+}
+
+function gRangeValuesForRangeId(req,res){
+	QAAModel.getRangeValuesForRangeId(req.params.rangeId).then(function(result){
+		if(typeof result!='undefined'){
+			res.send(result);
+		}
+	}).catch(function(error){
+		res.status(400).send(error);
+	})
+}
+
 module.exports={
 	gTestSummary,
 	gTestDetailByTestId,
@@ -151,7 +171,9 @@ module.exports={
 	gLocation,
 	gModels,
 	gTestLine,
-	pTestLine
+	pTestLine,
+	gAllCriteria,
+	gRangeValuesForRangeId
 }
 
 

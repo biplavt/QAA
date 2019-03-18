@@ -59,6 +59,16 @@ function postTestline(input){
     return makeConnection.sqlQueryExecution(ourQuery,mySqlConfig,bulkInsertValues);
 }
 
+function getAllCriteria(){
+	var ourQuery='SELECT criteriaID, criteriaName FROM QAA.criteria_TB';
+	return makeConnection.sqlQueryExecution(ourQuery,mySqlConfig);
+}
+
+function getRangeValuesForRangeId(rangeId){
+	var ourQuery=`SELECT rangeIdeal, rangeLow, rangeHigh FROM QAA.range_TB WHERE rangeID='${rangeId}'`;
+	return makeConnection.sqlQueryExecution(ourQuery,mySqlConfig);
+}
+
 module.exports={
 	getTestSummary,
 	getTestDetailByTestId,
@@ -66,5 +76,7 @@ module.exports={
 	getModels,
 	postTestSummary,
 	getTestLine,
-	postTestline
+	postTestline,
+	getAllCriteria,
+	getRangeValuesForRangeId
 }

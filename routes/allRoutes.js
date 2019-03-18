@@ -32,7 +32,9 @@ router.route('/v1/QAA/Location').get(QAAController.gLocation);
 
 router.route('/v1/QAA/Models').get(QAAController.gModels);
 
+router.route('/v1/QAA/allCriteria').get(QAAController.gAllCriteria);
 
+router.route('/v1/QAA/rangeValuesForRangeID/:rangeId').get(QAAController.gRangeValuesForRangeId);
 
 
 
