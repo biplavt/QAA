@@ -45,16 +45,168 @@
 
             <h1>API</h1>
 
-            <h3>/v1/WA/rolesByEmail/:email</h3>
+            <h3>GET /v1/QAA/testData</h3>
 
-            <h5>Get assigned roles according to their email</h5>
+            <h5>Get test Summary</h5>
 
             <h6><u>JSON Structure</u></h6>
 
             <code style="display:block;white-space:pre-wrap">
                     [
-                        "Role number 1",
-                        "Role number 2",
-                        ....
-                    ]                       
+                        {
+                            "testID": Test Id,
+                            "employeeID": Employee Id,
+                            "EmployeeName": Employee Name,
+                            "Location": Location,
+                            "ProductID": Product Id,
+                            "Product": Product Name,
+                            "QuantityInspected": Quantity Inspected,
+                            "InspectionDate": Inspection Date",
+                            "Status": Status of test
+                        },      
+                        {
+                            ...
+                        },
+                        ...
+                    ]                
             </code>
+
+            <h3>POST /v1/QAA/testData</h3>
+
+            <h5>POST test Summary</h5>
+
+            <h6><u>JSON Structure for Body</u></h6>
+
+            <code style="display:block;white-space:pre-wrap">
+                    {
+                        "testData":{
+                            "employeeID": Employee Id,
+                            "locationID": Location Id,
+                            "modelID": Model Id,
+                            "Qty": Quantity
+                            
+                        }
+                    }           
+            </code>
+
+            <h3>GET /v1/QAA/testDetailByID/:testId</h3>
+
+            <h5>Get test detail by testId</h5>
+
+            <h6><u>JSON Structure</u></h6>
+
+            <code style="display:block;white-space:pre-wrap">
+                    [
+                        {
+                            "TestCase": Test Case Number,
+                            "ProductID": Product Id,
+                            "WorkCell": Work Cell Number(Id),
+                            "Qty": Quantity,
+                            "Criteria": Criteria of testing,
+                            "Ideal": Ideal value ,
+                            "rLow": Low Value,
+                            "rHigh": High Value,
+                            "Actual": Actual Value,
+                            "Status": Status of Test
+                        },          
+            </code>
+
+            <h3>POST /v1/QAA/TestLine</h3>
+
+            <h5>Post testline</h5>
+
+            <h6><u>JSON Structure</u></h6>
+
+            <code style="display:block;white-space:pre-wrap">
+                    {
+                        "testData":
+                        [
+                            {
+                                "TestCase": Test ID,
+                                "criteriaID": Criteria Id,
+                                "rangeID": Range Id,
+                                "testData":91
+                            },
+                            {
+                                ...
+                            },
+                            ...
+                        ]
+                    }        
+            </code>
+
+            <h3>GET /v1/QAA/Location</h3>
+
+            <h5>Get location</h5>
+
+            <h6><u>JSON Structure</u></h6>
+
+            <code style="display:block;white-space:pre-wrap">
+                    [
+                        {
+                            "locationID": Location Id,
+                            "locationName": Location Name
+                        }
+                    ]   
+            </code>
+
+            <h3>GET /v1/QAA/Models</h3>
+
+            <h5>Get Model</h5>
+
+            <h6><u>JSON Structure</u></h6>
+
+            <code style="display:block;white-space:pre-wrap">
+                   [
+                        {
+                            "modelID": Model Id,
+                            "modelName": Model Name
+                        },
+                        {
+                            ...
+                        },
+                        ...
+                    ]   
+            </code>
+
+             <h3>GET /v1/QAA/allCriteria</h3>
+
+            <h5>Get all Criteria</h5>
+
+            <h6><u>JSON Structure</u></h6>
+
+            <code style="display:block;white-space:pre-wrap">
+                   [
+                        {
+                            "criteriaID": Criteria Id,
+                            "criteriaName": Criteria Name
+                        },
+                        {
+                            ...
+                        },
+                        ...
+                    ]   
+            </code>
+
+             <h3>GET /v1/QAA/rangeValuesForRangeID/:rangeId</h3>
+
+            <h5>Get range values for Range Id</h5>
+
+            <h6><u>JSON Structure</u></h6>
+
+            <code style="display:block;white-space:pre-wrap">
+                   [
+                        {
+                            "rangeIdeal": Ideal Value,
+                            "rangeLow": Low Value,
+                            "rangeHigh": High Value
+                        }
+                    ]  
+            </code>
+
+
+
+
+
+
+

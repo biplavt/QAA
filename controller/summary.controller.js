@@ -118,13 +118,15 @@ function pTestLine(req,res){
 
 function gLocation(req,res){
 	QAAModel.getLocation().then(function(result){
+		// console.log('result:',result);
 		if (typeof result != 'undefined'){
-			res.send({
-                    insertID : result.insertId,
-                    serverStatus : result.serverStatus,
-                    message : result.message,
-                    apiStatus : 1
-                });
+			// res.send({
+   //                  insertID : result.insertId,
+   //                  serverStatus : result.serverStatus,
+   //                  message : result.message,
+   //                  apiStatus : 1
+   //              });
+   			res.send(result);
 		}else{
 			throw new Error('Insert Failed');
 		}

@@ -8,15 +8,9 @@ const PORT = process.env.PORT || 3060;
 app.use(bodyParser.json());
 
 
-
-
-
-
 app.use(require('./routes/allRoutes'),function(req,res,next){
 	next();
 });
-
-
 
 
 app.listen(PORT, function() {
