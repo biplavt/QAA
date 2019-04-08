@@ -1,23 +1,23 @@
-const mysql=require('mysql');
-const connectionParams=require('./../../configuration/prodDatabase.config.js');
+const mysql = require('mysql');
+const connectionParams = require('./../../configuration/prodDatabase.config.js');
 
-var sqlQueryExecution=function(ourQuery,config,values){
+var sqlQueryExecution = function (ourQuery, config, values) {
 
-	return new Promise (function (resolve, reject){
+	return new Promise(function (resolve, reject) {
 
-		var newConnection= mysql.createPool(config.parameters);
+		var newConnection = mysql.createPool(config.parameters);
 
-		newConnection.query(ourQuery,[values],function(error,result){
+		newConnection.query(ourQuery, [values], function (error, result) {
 
-			if(error)
+			if (error)
 				reject(error);
 
-			else{
-			
+			else {
+
 				resolve(result);
-			
+
 			}
-		
+
 		})
 
 	})
@@ -26,7 +26,7 @@ var sqlQueryExecution=function(ourQuery,config,values){
 
 
 
-module.exports={
+module.exports = {
 	sqlQueryExecution
 }
 
