@@ -70,6 +70,11 @@ function getRangeValuesForRangeId(rangeId) {
     return makeConnection.sqlQueryExecution(ourQuery, mySqlConfig);
 }
 
+function getUsers(){
+    var ourQuery= 'SELECT employeeID, name FROM QAA.user_TB';
+    return makeConnection.sqlQueryExecution(ourQuery, mySqlConfig);
+}
+
 module.exports = {
     getTestSummary,
     getTestDetailByTestId,
@@ -79,5 +84,6 @@ module.exports = {
     getTestLine,
     postTestline,
     getAllCriteria,
-    getRangeValuesForRangeId
+    getRangeValuesForRangeId,
+    getUsers
 }

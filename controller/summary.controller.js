@@ -165,6 +165,16 @@ function gRangeValuesForRangeId(req, res) {
     })
 }
 
+function gUsers(req,res){
+    QAAModel.getUsers().then(function(result) {
+        if (typeof result != 'undefined') {
+            res.send(result);
+        }
+    }).catch(function(error) {
+        res.status(400).send(error);
+    })
+}
+
 module.exports = {
     gTestSummary,
     gTestDetailByTestId,
@@ -174,5 +184,6 @@ module.exports = {
     gTestLine,
     pTestLine,
     gAllCriteria,
-    gRangeValuesForRangeId
+    gRangeValuesForRangeId,
+    gUsers
 }

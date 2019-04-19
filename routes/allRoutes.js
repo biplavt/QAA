@@ -36,6 +36,8 @@ router.route('/v1/QAA/allCriteria').get(QAAController.gAllCriteria);
 
 router.route('/v1/QAA/rangeValuesForRangeID/:rangeId').get(QAAController.gRangeValuesForRangeId);
 
+router.route('/v1/QAA/Users').get(QAAController.gUsers);
+
 
 
 
