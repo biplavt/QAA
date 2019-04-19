@@ -144,7 +144,6 @@ function gModels(req, res) {
     })
 }
 
-
 function gAllCriteria(req, res) {
     QAAModel.getAllCriteria().then(function(result) {
         if (typeof result != 'undefined') {

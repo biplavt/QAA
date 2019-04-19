@@ -30,7 +30,7 @@ function getModels() {
 function postTestSummary(input) {
     // console.log('input:',input.employeeID, input.locationID,input.modelID,input.Qty);
     let values = [input.employeeID, input.locationID, input.modelID, input.Qty]
-    console.log(values);
+    // console.log(values);
 
     var ourQuery = `Insert into QAA.testData_TB (employeeID, locationID, modelID,Qty,verified) values ('${input.employeeID}',${input.locationID},'${input.modelID}',${input.Qty},0)`;
     // console.log(ourQuery);
