@@ -8,7 +8,7 @@ var viewPath = __dirname + '/../public/';
 var QAAController = require('./../controller/summary.controller');
 
 
-router.get('/', function (req, res) {
+router.get('/', function(req, res) {
     res.sendFile(path.resolve(viewPath + 'home.html'));
 })
 

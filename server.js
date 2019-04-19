@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
-var mysql=require('mysql');
-const bodyParser=require('body-parser');
+var mysql = require('mysql');
+const bodyParser = require('body-parser');
 var cors = require('cors');
 
 const PORT = process.env.PORT || 3060;
@@ -35,8 +35,8 @@ app.use(function(req, res, next) {
 });
 
 
-app.use(require('./routes/allRoutes'),function(req,res,next){
-	next();
+app.use(require('./routes/allRoutes'), function(req, res, next) {
+    next();
 });
 
 app.listen(PORT, function() {
