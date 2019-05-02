@@ -30,7 +30,7 @@ function gTestDetailByTestId(req, res) {
                     rLow: test.rangeLow,
                     rHigh: test.rangeHigh,
                     Actual: test.testData,
-                    Status: test.Status,
+                    Status: test.Status
 
                 })
             })
@@ -76,9 +76,7 @@ function gTestLine(testCaseID) {
 
 function pTestSummary(req, res) {
     let newTest = req.body.testData;
-    // console.log('req.body:',req.body);
-    // console.log('req.body.testData:',req.body.testData);
-    // res.send(JSON.stringify(req));
+   
     QAAModel.postTestSummary(newTest).then(function(result) {
         // console.log('result1:', result);
         if (result) {
@@ -93,7 +91,12 @@ function pTestSummary(req, res) {
         // console.log('testID:', testID);
         QAAModel.getTestLine(insertID).then(function(criteria) {
             if (criteria != []) {
-                res.send(criteria);
+                // res.send(criteria);
+                criteria.forEach(function(cri){
+                    cri.testData=0
+                    cri.testStatus=0
+                })
+                res.send(criteria)
             } else {
                 res.status(400).send({ 'err': 'No test Detail Found' });
             }
@@ -157,6 +160,7 @@ function gAllCriteria(req, res) {
 function gRangeValuesForRangeId(req, res) {
     QAAModel.getRangeValuesForRangeId(req.params.rangeId).then(function(result) {
         if (typeof result != 'undefined') {
+           
             res.send(result);
         }
     }).catch(function(error) {

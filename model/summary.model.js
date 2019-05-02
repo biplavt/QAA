@@ -55,7 +55,9 @@ function postTestline(input) {
     });
     // console.log("bulkInsertValues:",bulkInsertValues);
 
-    var ourQuery = `Insert  into testLineData_TB (testID, criteriaID, rangeID,testData) values ?`;
+    var ourQuery = `Insert  into testLineData_TB (testID, criteriaID, rangeID,testData,verified) values ?`;
+
+    // console.log(ourQuery);
 
     return makeConnection.sqlQueryExecution(ourQuery, mySqlConfig, bulkInsertValues);
 }
