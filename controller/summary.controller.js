@@ -64,7 +64,7 @@ function gTestLine(testCaseID) {
                         criteriaID: test.criteriaID,
                         Criteria: test.criteriaName,
                         rangeID: test.rangeID,
-                        Ideal: test.rangeIdeal,
+                        rangeIdeal: test.rangeIdeal,
                         rLow: test.rangeLow,
                         rHigh: test.rangeHigh
 
