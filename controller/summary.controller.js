@@ -29,7 +29,7 @@ function gTestDetailByTestId(req, res) {
                     criteriaName: test.criteriaName,
                     criteriaID:test.criteriaID,
                     rangeID:test.rangeID,
-                    Ideal: test.rangeIdeal,
+                    rangeIdeal: test.rangeIdeal,
                     rangeLow: test.rangeLow,
                     rangeHigh: test.rangeHigh,
                     testData:test.testData,
