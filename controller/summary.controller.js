@@ -5,6 +5,7 @@ function gTestSummary(req, res) {
     QAAModel.getTestSummary().then(function(result) {
 
         if (typeof result != 'undefined') {
+           
             res.status(200).send(result);
         }
 
@@ -21,16 +22,19 @@ function gTestDetailByTestId(req, res) {
             // res.status(200).send(result);
             result.forEach(function(test) {
                 testDetail.push({
-                    TestCase: test.testID,
-                    ProductID: test.modelID,
-                    WorkCell: test.workCell,
+                    testID: test.testID,
+                    modelID: test.modelID,
+                    workCell: test.workCell,
                     Qty: test.QuantityInspected,
-                    Criteria: test.criteriaName,
+                    criteriaName: test.criteriaName,
+                    criteriaID:test.criteriaID,
+                    rangeID:test.rangeID,
                     Ideal: test.rangeIdeal,
-                    rLow: test.rangeLow,
-                    rHigh: test.rangeHigh,
-                    Actual: test.testData,
-                    Status: test.Status
+                    rangeLow: test.rangeLow,
+                    rangeHigh: test.rangeHigh,
+                    testData:test.testData,
+                    Status:test.Status,
+                    testStatus: test.testStatus
 
                 })
             })
@@ -122,12 +126,7 @@ function gLocation(req, res) {
     QAAModel.getLocation().then(function(result) {
         // console.log('result:',result);
         if (typeof result != 'undefined') {
-            // res.send({
-            //                  insertID : result.insertId,
-            //                  serverStatus : result.serverStatus,
-            //                  message : result.message,
-            //                  apiStatus : 1
-            //              });
+           
             res.send(result);
         } else {
             throw new Error('Insert Failed');

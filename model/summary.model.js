@@ -5,13 +5,13 @@ var makeConnection = require('./utility/utilityModel.js');
 function getTestSummary() {
 
     var ourQuery = `SELECT testID, employeeID, EmployeeName, Location, ProductID, Product, QuantityInspected, 
-		InspectionDate, Status FROM QAA.TestSummary`;
+		Date_Format(InspectionDate, '%m-%d-%Y') as InspectionDate, Status FROM QAA.TestSummary`;
 
     return makeConnection.sqlQueryExecution(ourQuery, mySqlConfig);
 }
 
 function getTestDetailByTestId(testCaseID) {
-    var ourQuery = `select testID, modelID, workCell, QuantityInspected, criteriaName, rangeIdeal, rangeLow, rangeHigh,testData, Status 
+    var ourQuery = `select testID, modelID, workCell,  QuantityInspected, criteriaName, criteriaID,rangeID, rangeIdeal, rangeLow, rangeHigh,testData, Status,testStatus
         from QAA.TestDetail where testID = ${testCaseID}`;
     return makeConnection.sqlQueryExecution(ourQuery, mySqlConfig);
 }
@@ -53,11 +53,9 @@ function postTestline(input) {
         bulkInsertValues.push(values);
 
     });
-    // console.log("bulkInsertValues:",bulkInsertValues);
 
     var ourQuery = `Insert  into testLineData_TB (testID, criteriaID, rangeID,testData,verified) values ?`;
 
-    // console.log(ourQuery);
 
     return makeConnection.sqlQueryExecution(ourQuery, mySqlConfig, bulkInsertValues);
 }
