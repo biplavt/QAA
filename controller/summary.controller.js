@@ -35,7 +35,6 @@ function gTestDetailByTestId(req, res) {
                     testData:test.testData,
                     Status:test.Status,
                     testStatus: test.testStatus
-
                 })
             })
             res.send(testDetail);
