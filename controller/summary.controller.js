@@ -1,8 +1,8 @@
 var QAAModel = require('./../model/summary.model');
 
 
-function gTestSummary(req, res) {
-    QAAModel.getTestSummary().then(function(result) {
+function gTestDataSummary(req, res) {
+    QAAModel.getTestDataSummary().then(function(result) {
 
         if (typeof result != 'undefined') {
            
@@ -77,10 +77,10 @@ function gTestLine(testCaseID) {
     })
 }
 
-function pTestSummary(req, res) {
+function pTestDataSummary(req, res) {
     let newTest = req.body.testData;
    
-    QAAModel.postTestSummary(newTest).then(function(result) {
+    QAAModel.postTestDataSummary(newTest).then(function(result) {
         // console.log('result1:', result);
         if (result) {
             // console.log('insertId:', result.insertId)
@@ -177,9 +177,9 @@ function gUsers(req,res){
 }
 
 module.exports = {
-    gTestSummary,
+    gTestDataSummary,
     gTestDetailByTestId,
-    pTestSummary,
+    pTestDataSummary,
     gLocation,
     gModels,
     gTestLine,

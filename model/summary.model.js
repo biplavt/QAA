@@ -2,7 +2,7 @@ var mySqlConfig = require('./../configuration/prodDatabase.config.js');
 var makeConnection = require('./utility/utilityModel.js');
 
 
-function getTestSummary() {
+function getTestDataSummary() {
 
     var ourQuery = `SELECT testID, employeeID, EmployeeName, Location, ProductID, Product, QuantityInspected, 
 		Date_Format(InspectionDate, '%m-%d-%Y') as InspectionDate, Status FROM QAA.TestSummary`;
@@ -12,8 +12,8 @@ function getTestSummary() {
 
 function getTestDetailByTestId(testCaseID) {
     var ourQuery = `select testID, modelID, workCell,  QuantityInspected, criteriaName, criteriaID,rangeID, rangeIdeal, rangeLow, rangeHigh,testData, Status,testStatus
-        from QAA.TestDetail where testID = ${testCaseID}`;
-    return makeConnection.sqlQueryExecution(ourQuery, mySqlConfig);
+        from QAA.TestDetail where testID = ?`;
+    return makeConnection.sqlQueryExecution(ourQuery, mySqlConfig, testCaseID);
 }
 
 
@@ -27,28 +27,27 @@ function getModels() {
     return makeConnection.sqlQueryExecution(ourQuery, mySqlConfig);
 }
 
-function postTestSummary(input) {
+function postTestDataSummary(input) {
     // console.log('input:',input.employeeID, input.locationID,input.modelID,input.Qty);
-    let values = [input.employeeID, input.locationID, input.modelID, input.Qty]
+    let values = [input.employeeID, input.locationID, input.modelID, input.Qty,0]
     // console.log(values);
 
-    var ourQuery = `Insert into QAA.testData_TB (employeeID, locationID, modelID,Qty,verified) values ('${input.employeeID}',${input.locationID},'${input.modelID}',${input.Qty},0)`;
+    // var ourQuery = `Insert into QAA.testData_TB (employeeID, locationID, modelID,Qty,verified) values ('${input.employeeID}',${input.locationID},'${input.modelID}',${input.Qty},0)`;
+    var ourQuery = `Insert into QAA.testData_TB (employeeID, locationID, modelID,Qty,verified) values (?)`;
     // console.log(ourQuery);
-    return makeConnection.sqlQueryExecution(ourQuery, mySqlConfig);
+    return makeConnection.sqlQueryExecution(ourQuery, mySqlConfig, values);
 }
 
 
 function postTestline(input) {
+    //for first query( ourQuery)
     let bulkInsertValues = [];
-    // console.log('input:',input);
 
-    let testStatus=true;
-        input.forEach(function(testLine){
-            testStatus=testStatus && testLine.testStatus
-        })
-        
-        // console.log('testStatus:',testStatus);
-
+    var ourQuery = `Insert into QAA.testLineData_TB (testID, criteriaID, rangeID,testData,verified) values ?
+        ON DUPLICATE KEY UPDATE 
+        QAA.testLineData_TB.testData=VALUES(QAA.testLineData_TB.testData), 
+        QAA.testLineData_TB.verified=VALUES(QAA.testLineData_TB.verified),
+        QAA.testLineData_TB.date=CURRENT_TIMESTAMP`;   
 
     input.forEach(criteria => {
 
@@ -58,30 +57,36 @@ function postTestline(input) {
 
     });
 
-    var newUpdateQuery=`UPDATE QAA.testData_TB SET verified = ${testStatus} WHERE testID= ${input[0].TestCase}`
-    // console.log('newUpdateQuery:',newUpdateQuery);
+    console.log("bulkInsertValues:",bulkInsertValues);
 
-    var ourQuery = `Insert into QAA.testLineData_TB (testID, criteriaID, rangeID,testData,verified) values ?`;
+    //for second query (newUpdateQuery) ie. updates the testStatus in testData_TB
 
+     let testStatus=true;
+        input.forEach(function(testLine){
+            testStatus=testStatus && testLine.testStatus
+        });  
+
+    var newUpdateQuery=`UPDATE QAA.testData_TB SET verified = ${testStatus} WHERE testID= ?`
+
+    
     return new Promise(function(resolve, reject){
         makeConnection.sqlQueryExecution(ourQuery, mySqlConfig, bulkInsertValues).then(function(result){
-            // console.log('newUpdateQuery:',newUpdateQuery);
-            return makeConnection.sqlQueryExecution(newUpdateQuery, mySqlConfig);
+            return makeConnection.sqlQueryExecution(newUpdateQuery, mySqlConfig,input[0].TestCase);
         }).then(function(result){
             resolve(result);
         },function(error){
-            reject(error);
+            reject({error:error.sqlMessage});
         })
-    })
-    
-    
-
+    })  
 }
+
 
 function getTestLine(testCaseID) {
     // console.log('testCaseID:',testCaseID);
-    var ourQuery = `select * from QAA.testLine where testID = ${testCaseID}`;
-    return makeConnection.sqlQueryExecution(ourQuery, mySqlConfig);
+    // var ourQuery = `select * from QAA.testLine where testID = ${testCaseID}`;
+    var ourQuery = `select * from QAA.testLine where testID = ? `;
+
+    return makeConnection.sqlQueryExecution(ourQuery, mySqlConfig, testCaseID);
 }
 
 function getAllCriteria() {
@@ -90,8 +95,8 @@ function getAllCriteria() {
 }
 
 function getRangeValuesForRangeId(rangeId) {
-    var ourQuery = `SELECT rangeIdeal, rangeLow, rangeHigh FROM QAA.range_TB WHERE rangeID='${rangeId}'`;
-    return makeConnection.sqlQueryExecution(ourQuery, mySqlConfig);
+    var ourQuery = `SELECT rangeIdeal, rangeLow, rangeHigh FROM QAA.range_TB WHERE rangeID=? `;
+    return makeConnection.sqlQueryExecution(ourQuery, mySqlConfig, rangeId);
 }
 
 function getUsers(){
@@ -100,11 +105,11 @@ function getUsers(){
 }
 
 module.exports = {
-    getTestSummary,
+    getTestDataSummary,
     getTestDetailByTestId,
     getLocation,
     getModels,
-    postTestSummary,
+    postTestDataSummary,
     getTestLine,
     postTestline,
     getAllCriteria,

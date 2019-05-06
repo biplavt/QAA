@@ -14,10 +14,10 @@ router.get('/', function(req, res) {
 
 
 // GET TEST SUMMARY
-router.route('/v1/QAA/testData').get(QAAController.gTestSummary);
+router.route('/v1/QAA/testData').get(QAAController.gTestDataSummary);
 
 // WRITE TEST SUMMARY AND RETURNS THE CRITERIA RANGE FOR THE PRODUCT
-router.route('/v1/QAA/testData').post(QAAController.pTestSummary);
+router.route('/v1/QAA/testData').post(QAAController.pTestDataSummary);
 
 
 
