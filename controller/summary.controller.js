@@ -68,38 +68,38 @@ function gTestDetailByTestId(req, res) {
     })
 }
 
-// function gTestLine(testCaseID) {
+function gTestLine(testCaseID) {
 
-//     return new Promise(function(resolve, reject) {
+    return new Promise(function(resolve, reject) {
 
-//         QAAModel.getTestLine(testCaseID).then(function(result) {
+        QAAModel.getTestLine(testCaseID).then(function(result) {
 
-//             let testDetail = [];
+            let testDetail = [];
 
-//             if (typeof result != 'undefined') {
+            if (typeof result != 'undefined') {
 
-//                 result.forEach(function(test) {
+                result.forEach(function(test) {
 
-//                     testDetail.push({
+                    testDetail.push({
 
-//                         TestCase: test.testID,
-//                         ProductID: test.modelID,
-//                         criteriaID: test.criteriaID,
-//                         Criteria: test.criteriaName,
-//                         rangeID: test.rangeID,
-//                         rangeIdeal: test.rangeIdeal,
-//                         rLow: test.rangeLow,
-//                         rHigh: test.rangeHigh
+                        TestCase: test.testID,
+                        ProductID: test.modelID,
+                        criteriaID: test.criteriaID,
+                        Criteria: test.criteriaName,
+                        rangeID: test.rangeID,
+                        rangeIdeal: test.rangeIdeal,
+                        rLow: test.rangeLow,
+                        rHigh: test.rangeHigh
 
-//                     });
-//                 })
-//                 resolve(testDetail);
-//             } else {
-//                 reject('error');
-//             }
-//         })
-//     })
-// }
+                    });
+                })
+                resolve(testDetail);
+            } else {
+                reject('error');
+            }
+        })
+    })
+}
 
 function pTestDataSummary(req, res) {
     let newTest = req.body.testData;
@@ -206,7 +206,7 @@ module.exports = {
     pTestDataSummary,
     gLocation,
     gModels,
-    // gTestLine,
+    gTestLine,
     pTestLine,
     gAllCriteria,
     gRangeValuesForRangeId,
