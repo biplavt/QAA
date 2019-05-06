@@ -3,50 +3,68 @@ var QAAModel = require('./../model/summary.model');
 /***
 Function: Returns all the testData Summary present in our system 
 Input: None
-Output: Array of Objects (testID,employeeID,EmployeeName, Location, ProductID,QuantityInspected,InspectionDate,Status)
+Output: Array of Objects {testID,employeeID,EmployeeName, Location, ProductID,QuantityInspected,InspectionDate,Status}
 Time Complexity: O(Async)
 ***/
 function gTestDataSummary(req, res) {
+
     QAAModel.getTestDataSummary().then(function(result) {
 
         if (typeof result != 'undefined') {
-           
+
             res.status(200).send(result);
         }
 
     }).catch(function(error) {
-        res.status(400).send(error);
+
+        if(typeof error.sqlMessage!='undefined')
+            res.status(400).send({ 'Error': error.sqlMessage });
+        else 
+            res.status(400).send(error);
     })
 }
 
+/***
+Function: Returns all the test lines for particular Test using TestID
+Input: Test ID
+Output: Array of Objects {testID, modelID, workcell, Qty, criteriaName, criteriaID,rangeID, rangeIdeal, rangeLow,rangeHigh,testData,Status, testStatus, Unit}
+Time Complexity: O(Async) + C, C=number of testlines for a particular testID (usually 4)
+***/
 function gTestDetailByTestId(req, res) {
+
     var testDetail = [];
+
     QAAModel.getTestDetailByTestId(req.params.testId).then(function(result) {
-        // console.log('result:',result);
+
         if (typeof result != 'undefined') {
-            // res.status(200).send(result);
+
             result.forEach(function(test) {
+
                 testDetail.push({
                     testID: test.testID,
                     modelID: test.modelID,
                     workCell: test.workCell,
                     Qty: test.QuantityInspected,
                     criteriaName: test.criteriaName,
-                    criteriaID:test.criteriaID,
-                    rangeID:test.rangeID,
+                    criteriaID: test.criteriaID,
+                    rangeID: test.rangeID,
                     rangeIdeal: test.rangeIdeal,
                     rangeLow: test.rangeLow,
                     rangeHigh: test.rangeHigh,
-                    testData:test.testData,
-                    Status:test.Status,
+                    testData: test.testData,
+                    Status: test.Status,
                     testStatus: test.testStatus,
-                    Unit:test.Unit
+                    Unit: test.Unit
                 })
             })
+
             res.send(testDetail);
         }
     }).catch(function(error) {
-        res.status(400).send(error);
+        if(typeof error.sqlMessage!='undefined')
+            res.status(400).send({ 'Error': error.sqlMessage });
+        else 
+            res.status(400).send(error);
     })
 }
 
@@ -85,11 +103,11 @@ function gTestDetailByTestId(req, res) {
 
 function pTestDataSummary(req, res) {
     let newTest = req.body.testData;
-   
+
     QAAModel.postTestDataSummary(newTest).then(function(result) {
-        // console.log('result1:', result);
+        console.log('result1:', result);
         if (result) {
-            // console.log('insertId:', result.insertId)
+            console.log('insertId:', result.insertId)
             return (result.insertId);
         } else {
             throw new Error('Insert Failed');
@@ -97,13 +115,13 @@ function pTestDataSummary(req, res) {
 
     }).then(function(insertID) {
         let testID = JSON.stringify(insertID, undefined, 2);
-        // console.log('testID:', testID);
+        console.log('testID:', testID);
         QAAModel.getTestLine(insertID).then(function(criteria) {
             if (criteria != []) {
                 // res.send(criteria);
-                criteria.forEach(function(cri){
-                    cri.testData=0
-                    cri.testStatus=0
+                criteria.forEach(function(cri) {
+                    cri.testData = 0
+                    cri.testStatus = 0
                 })
                 res.send(criteria)
             } else {
@@ -111,7 +129,7 @@ function pTestDataSummary(req, res) {
             }
         })
     }).catch(function(error) {
-        res.status(400).send(error);
+        res.status(400).send({ 'Error': error.sqlMessage });
     })
 }
 
@@ -131,7 +149,7 @@ function gLocation(req, res) {
     QAAModel.getLocation().then(function(result) {
         // console.log('result:',result);
         if (typeof result != 'undefined') {
-           
+
             res.send(result);
         } else {
             throw new Error('Insert Failed');
@@ -164,7 +182,7 @@ function gAllCriteria(req, res) {
 function gRangeValuesForRangeId(req, res) {
     QAAModel.getRangeValuesForRangeId(req.params.rangeId).then(function(result) {
         if (typeof result != 'undefined') {
-           
+
             res.send(result);
         }
     }).catch(function(error) {
@@ -172,7 +190,7 @@ function gRangeValuesForRangeId(req, res) {
     })
 }
 
-function gUsers(req,res){
+function gUsers(req, res) {
     QAAModel.getUsers().then(function(result) {
         if (typeof result != 'undefined') {
             res.send(result);

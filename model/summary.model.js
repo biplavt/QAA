@@ -85,13 +85,13 @@ function postTestline(input) {
 }
 
 
-// function getTestLine(testCaseID) {
-//     // console.log('testCaseID:',testCaseID);
-//     var ourQuery = `select * from QAA.testLine where testID = ${testCaseID}`;
-//     // var ourQuery = `select testID,criteriaID,modelID,criteriaName,rangeID,rangeIdeal,rangeLow,rangeHigh,Unit from QAA.testLine where testID = ? `;
+function getTestLine(testCaseID) {
+    // console.log('testCaseID:',testCaseID);
+    var ourQuery = `select * from QAA.testLine where testID = ${testCaseID}`;
+    // var ourQuery = `select testID,criteriaID,modelID,criteriaName,rangeID,rangeIdeal,rangeLow,rangeHigh,Unit from QAA.testLine where testID = ? `;
 
-//     return makeConnection.sqlQueryExecution(ourQuery, mySqlConfig, testCaseID);
-// }
+    return makeConnection.sqlQueryExecution(ourQuery, mySqlConfig, testCaseID);
+}
 
 function getAllCriteria() {
     var ourQuery = 'SELECT criteriaID, criteriaName FROM QAA.criteria_TB';
@@ -114,7 +114,7 @@ module.exports = {
     getLocation,
     getModels,
     postTestDataSummary,
-    // getTestLine,
+    getTestLine,
     postTestline,
     getAllCriteria,
     getRangeValuesForRangeId,
