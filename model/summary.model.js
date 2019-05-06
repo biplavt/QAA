@@ -38,7 +38,7 @@ function postTestDataSummary(input) {
 
     // var ourQuery = `Insert into QAA.testData_TB (employeeID, locationID, modelID,Qty,verified) values ('${input.employeeID}',${input.locationID},'${input.modelID}',${input.Qty},0)`;
     var ourQuery = `Insert into QAA.testData_TB (employeeID, locationID, modelID,Qty,verified) values (?)`;
-    console.log(ourQuery);
+    // console.log(ourQuery);
     return makeConnection.sqlQueryExecution(ourQuery, mySqlConfig, values);
 }
 
@@ -61,7 +61,7 @@ function postTestline(input) {
 
     });
 
-    console.log("bulkInsertValues:", bulkInsertValues);
+    // console.log("bulkInsertValues:", bulkInsertValues);
 
     //for second query (newUpdateQuery) ie. updates the testStatus in testData_TB
 

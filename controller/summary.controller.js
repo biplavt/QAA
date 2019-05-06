@@ -105,9 +105,9 @@ function pTestDataSummary(req, res) {
     let newTest = req.body.testData;
 
     QAAModel.postTestDataSummary(newTest).then(function(result) {
-        console.log('result1:', result);
+        // console.log('result1:', result);
         if (result) {
-            console.log('insertId:', result.insertId)
+            // console.log('insertId:', result.insertId)
             return (result.insertId);
         } else {
             throw new Error('Insert Failed');
@@ -115,7 +115,7 @@ function pTestDataSummary(req, res) {
 
     }).then(function(insertID) {
         let testID = JSON.stringify(insertID, undefined, 2);
-        console.log('testID:', testID);
+        // console.log('testID:', testID);
         QAAModel.getTestLine(insertID).then(function(criteria) {
             if (criteria != []) {
                 // res.send(criteria);
