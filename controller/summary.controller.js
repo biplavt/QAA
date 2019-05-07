@@ -31,11 +31,11 @@ Output: Array of Objects {testID, modelID, workcell, Qty, criteriaName, criteria
 Time Complexity: O(Async) + C, C=number of testlines for a particular testID (usually 4)
 ***/
 function gTestDetailByTestId(req, res) {
-
+    // console.log('hi');
     var testDetail = [];
 
     QAAModel.getTestDetailByTestId(req.params.testId).then(function(result) {
-
+        // console.log('result:',result);
         if (typeof result != 'undefined') {
 
             result.forEach(function(test) {
@@ -56,11 +56,22 @@ function gTestDetailByTestId(req, res) {
                     testStatus: test.testStatus,
                     Unit: test.Unit
                 })
-            })
 
-            res.send(testDetail);
+            })
         }
-    }).catch(function(error) {
+        console.log('testDetail:',testDetail);
+        return QAAModel.getTestDataSummaryByTestId(req.params.testId);
+    }).then(function(result){
+
+        console.log('result:',result[0].verified);
+        // testDetail.push(result[0]);
+        res.send({
+            testData:testDetail,
+            OverallTestStatus:result[0].verified
+        });
+    })
+
+    .catch(function(error) {
         if(typeof error.sqlMessage!='undefined')
             res.status(400).send({ 'Error': error.sqlMessage });
         else 

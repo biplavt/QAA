@@ -14,9 +14,17 @@ function getTestDataSummary() {
     return makeConnection.sqlQueryExecution(ourQuery, mySqlConfig);
 }
 
+function getTestDataSummaryByTestId(testCaseID) {
+    var ourQuery=`select testID, employeeID,locationID,modelID,Qty,verified,Date_Format(date, '%m-%d-%Y') as date from QAA.testData_TB where testID= ? `; //for testData
+    
+    return makeConnection.sqlQueryExecution(ourQuery, mySqlConfig, testCaseID);
+
+}
+
 function getTestDetailByTestId(testCaseID) {
     var ourQuery = `select Unit,testID, modelID, workCell,  QuantityInspected, criteriaName, criteriaID,rangeID, rangeIdeal, rangeLow, rangeHigh,testData, Status,testStatus
-        from QAA.TestDetail where testID = ?`;
+        from QAA.TestDetail where testID = ?`; //for testlines
+    // console.log('*');
     return makeConnection.sqlQueryExecution(ourQuery, mySqlConfig, testCaseID);
 }
 
@@ -110,6 +118,7 @@ function getUsers() {
 
 module.exports = {
     getTestDataSummary,
+    getTestDataSummaryByTestId,
     getTestDetailByTestId,
     getLocation,
     getModels,
