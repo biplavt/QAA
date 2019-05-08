@@ -2,6 +2,7 @@ var QAAModel = require('./../model/summary.model');
 
 /***
 Function: Returns all the testData Summary present in our system 
+    Called by /v1/QAA/testData
 Input: None
 Output: Array of Objects {testID,employeeID,EmployeeName, Location, ProductID,QuantityInspected,InspectionDate,Status}
 Time Complexity: O(Async)
@@ -26,6 +27,7 @@ function gTestDataSummary(req, res) {
 
 /***
 Function: Returns all the test lines for particular Test using TestID
+    Called by /v1/QAA/testDetailByID/:testID 
 Input: Test ID
 Output: Array of Objects {testID, modelID, workcell, Qty, criteriaName, criteriaID,rangeID, rangeIdeal, rangeLow,rangeHigh,testData,Status, testStatus, Unit}
 Time Complexity: O(Async) + C, C=number of testlines for a particular testID (usually 4)

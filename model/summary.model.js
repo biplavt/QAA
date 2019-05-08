@@ -3,7 +3,11 @@ var makeConnection = require('./utility/utilityModel.js');
 
 
 /***
-Function: Returns all the testData Summary present in our system 
+    Function: Returns all the testData Summary present in our system 
+        Called by /v1/QAA/testData ==> gTestDataSummary()
+    Input: None
+    Output: Array of Objects {testID,employeeID,EmployeeName, Location, ProductID,QuantityInspected,InspectionDate,Status}
+    Time Complexity: O(Async)
 ***/
 
 function getTestDataSummary() {
@@ -15,7 +19,7 @@ function getTestDataSummary() {
 }
 
 function getTestDataSummaryByTestId(testCaseID) {
-    var ourQuery=`select testID, employeeID,locationID,modelID,Qty,verified,Date_Format(date, '%m-%d-%Y') as date from QAA.testData_TB where testID= ? `; //for testData
+    var ourQuery=`select testID, employeeID,locationID,modelID,Qty,verified,Date_Format(date, '%m-%d-%Y') as date from QAA.testData_TB where testID= ${testCaseID} `; //for testData
     
     return makeConnection.mysqlQueryExecution(ourQuery, mySqlConfig, testCaseID);
 
