@@ -38,6 +38,8 @@ router.route('/v1/QAA/rangeValuesForRangeID/:rangeId').get(QAAController.gRangeV
 
 router.route('/v1/QAA/Users').get(QAAController.gUsers);
 
+router.route('/v1/WA/rolesByEmail/:email').get(QAAController.gRolesByEmail);
+
 
 
 

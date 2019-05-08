@@ -208,6 +208,30 @@ function gUsers(req, res) {
     })
 }
 
+function gRolesByEmail(req, res) {
+
+    QAAModel.getRolesByEmail(req.params.email).then(function (result) {
+
+        if (typeof result[0] != 'undefined') {
+
+            var resultArray = [];
+            result.forEach(function (data) {
+                resultArray.push(data.role);
+            })
+
+            res.status(200).send(resultArray);
+
+        } else {
+
+            res.status(200).send([]);
+
+        }
+
+    }).catch(function (error) {
+        res.status(400).send(error);
+    })
+}
+
 module.exports = {
     gTestDataSummary,
     gTestDetailByTestId,
@@ -218,5 +242,6 @@ module.exports = {
     pTestLine,
     gAllCriteria,
     gRangeValuesForRangeId,
-    gUsers
+    gUsers,
+    gRolesByEmail
 }
