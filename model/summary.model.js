@@ -1,4 +1,4 @@
-var mySqlConfig = require('./../configuration/prodDatabase.config.js');
+var {mySqlConfig} = require('./../configuration/prodDatabase.config.js');
 var makeConnection = require('./utility/utilityModel.js');
 
 
@@ -9,13 +9,26 @@ var makeConnection = require('./utility/utilityModel.js');
     Output: Array of Objects {testID,employeeID,EmployeeName, Location, ProductID,QuantityInspected,InspectionDate,Status}
     Time Complexity: O(Async)
 ***/
-
 function getTestDataSummary() {
 
     var ourQuery = `SELECT testID, employeeID, EmployeeName, Location, ProductID, Product, QuantityInspected, 
         Date_Format(InspectionDate, '%m-%d-%Y') as InspectionDate, Status FROM QAA.TestSummary`;
 
     return makeConnection.mysqlQueryExecution(ourQuery, mySqlConfig);
+}
+
+/***
+    Function: Returns all the test lines for particular Test using TestID
+        Called by /v1/QAA/testDetailByID/:testID 
+    Input: Test ID
+    Output: Array of Objects {testID, modelID, workcell, Qty, criteriaName, criteriaID,rangeID, rangeIdeal, rangeLow,rangeHigh,testData,Status, testStatus, Unit}
+    Time Complexity: O(Async) + C, C=number of testlines for a particular testID (usually 4)
+***/
+function getTestDetailByTestId(testCaseID) {
+    var ourQuery = `select Unit,testID, modelID, workCell,  QuantityInspected, criteriaName, criteriaID,rangeID, rangeIdeal, rangeLow, rangeHigh,testData, Status,testStatus
+        from QAA.TestDetail where testID = ?`; //for testlines
+    // console.log('*');
+    return makeConnection.mysqlQueryExecution(ourQuery, mySqlConfig, testCaseID);
 }
 
 function getTestDataSummaryByTestId(testCaseID) {
@@ -25,15 +38,11 @@ function getTestDataSummaryByTestId(testCaseID) {
 
 }
 
-function getTestDetailByTestId(testCaseID) {
-    var ourQuery = `select Unit,testID, modelID, workCell,  QuantityInspected, criteriaName, criteriaID,rangeID, rangeIdeal, rangeLow, rangeHigh,testData, Status,testStatus
-        from QAA.TestDetail where testID = ?`; //for testlines
-    // console.log('*');
-    return makeConnection.mysqlQueryExecution(ourQuery, mySqlConfig, testCaseID);
-}
+
 
 
 function getLocation() {
+
     var ourQuery = 'SELECT locationID,locationName FROM QAA.location_TB';
     return makeConnection.mysqlQueryExecution(ourQuery, mySqlConfig);
 }

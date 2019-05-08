@@ -5,7 +5,7 @@ var mysqlQueryExecution = function (ourQuery, config, values) {
 
 	return new Promise(function (resolve, reject) {
 
-		var newConnection = mysql.createPool(config.parameters);
+		var newConnection = mysql.createPool(config);
 
 		newConnection.query(ourQuery, [values], function (error, result) {
 
