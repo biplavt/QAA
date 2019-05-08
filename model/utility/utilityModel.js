@@ -1,7 +1,7 @@
 const mysql = require('mysql');
 const connectionParams = require('./../../configuration/prodDatabase.config.js');
 
-var sqlQueryExecution = function (ourQuery, config, values) {
+var mysqlQueryExecution = function (ourQuery, config, values) {
 
 	return new Promise(function (resolve, reject) {
 
@@ -27,7 +27,7 @@ var sqlQueryExecution = function (ourQuery, config, values) {
 
 
 module.exports = {
-	sqlQueryExecution
+	mysqlQueryExecution
 }
 
 
