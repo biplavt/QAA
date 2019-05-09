@@ -3,6 +3,8 @@ var app = express();
 var mysql = require('mysql');
 const bodyParser = require('body-parser');
 
+var cors=require('./cors.server.js');
+
 
 const PORT = process.env.PORT || 3060;
 
