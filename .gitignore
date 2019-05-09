@@ -3,4 +3,5 @@
 config.json
 .gcloudignore
 app.yaml
+package-lock.json
 

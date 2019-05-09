@@ -1,15 +1,16 @@
 var express = require('express');
 var app = express();
-var mysql = require('mysql');
+
 const bodyParser = require('body-parser');
+app.use(bodyParser.json());
 
-var cors=require('./cors.server.js');
 
+var cors = require('cors');
+var {corsfunction, corsOptions} =require('./cors.server.js');
+app.use(cors(corsOptions));
+app.use(corsfunction);
 
 const PORT = process.env.PORT || 3060;
-
-
-app.use(bodyParser.json());
 
 
 app.use(require('../routes/allRoutes'), function(req, res, next) {
@@ -17,11 +18,6 @@ app.use(require('../routes/allRoutes'), function(req, res, next) {
 });
 
 
-
 app.listen(PORT, function() {
     console.log(`Server started at ${PORT}...`);
 })
-
-module.exports={
-    app
-}
