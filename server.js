@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 
 var originsWhitelist = [
     'http://localhost:4200' //this is my front-end url for development
-    ,'https://iot-app-test.herokuapp.com'
+    ,'https://haws-corporation.herokuapp.com/'
 ];
 var corsOptions = {
     origin: function(origin, callback) {
