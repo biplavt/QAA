@@ -77,9 +77,9 @@ function gTestDetailByTestId(req, res) {
 
 /***
     Function: Returns all the test lines for particular Test using TestID
-        Called by /v1/QAA/testDetailByID/:testID 
+        Called by none ( i am not sure if we are using it)
     Input: Test ID
-    Output: Array of Objects {testID, modelID, workcell, Qty, criteriaName, criteriaID,rangeID, rangeIdeal, rangeLow,rangeHigh,testData,Status, testStatus, Unit}
+    Output: Array of Objects {testCase,productID,criteriaID,criteria,rangeID,rangeIdeal,rlow,rHigh}
     Time Complexity: O(Async) + C, C=number of testlines for a particular testID (usually 4)
 ***/
 function gTestLine(testCaseID) {
