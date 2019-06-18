@@ -1,10 +1,10 @@
 
 
-var originsWhitelist = [
+const originsWhitelist = [
     'http://localhost:4200' //this is my front-end url for development
     ,'https://haws-corporation.herokuapp.com'
 ];
-var corsOptions = {
+const corsOptions = {
     origin: function(origin, callback) {
         var isWhitelisted = originsWhitelist.indexOf(origin) !== -1;
         callback(null, isWhitelisted);
@@ -12,7 +12,7 @@ var corsOptions = {
     credentials: true
 }
 
-var corsfunction= function(req, res, next) {
+const corsfunction= function(req, res, next) {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     // Request methods you wish to allow

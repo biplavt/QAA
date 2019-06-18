@@ -1,4 +1,16 @@
-var QAAModel = require('./../model/summary.model');
+// var QAAModel = require('./../model/summary.model');
+const {getTestDataSummary,
+    getTestDataSummaryByTestId,
+    getTestDetailByTestId,
+    getLocation,
+    getModels,
+    postTestDataSummary,
+    getTestLine,
+    postTestline,
+    getAllCriteria,
+    getRangeValuesForRangeId,
+    getUsers,
+    getRolesByEmail}=require('./../model/summary.model');
 
 /***
 Function: Returns all the testData Summary present in our system (ie. all test data present (not lines) in our database)
@@ -9,7 +21,7 @@ Time Complexity: O(Async)
 ***/
 function gTestDataSummary(req, res) {
 
-    QAAModel.getTestDataSummary().then(function(result) {
+    getTestDataSummary().then(function(result) {
 
         if (typeof result != 'undefined') {
 
@@ -35,7 +47,7 @@ function gTestDataSummary(req, res) {
 function gTestDetailByTestId(req, res) {
     var testDetail = [];
 
-    QAAModel.getTestDetailByTestId(req.params.testId).then(function(result) {
+    getTestDetailByTestId(req.params.testId).then(function(result) {
         if (typeof result != 'undefined') {
 
             result.forEach(function(test) {
@@ -59,9 +71,10 @@ function gTestDetailByTestId(req, res) {
 
             })
         }
-        return QAAModel.getTestDataSummaryByTestId(req.params.testId);
+        return getTestDataSummaryByTestId(req.params.testId);
     })
     .then(function(result){
+        console.log('2nd:',result);
         res.send({
             testData:testDetail,
             OverallTestStatus:result[0].verified
@@ -86,7 +99,7 @@ function gTestLine(testCaseID) {
 
     return new Promise(function(resolve, reject) {
 
-        QAAModel.getTestLine(testCaseID).then(function(result) {
+       getTestLine(testCaseID).then(function(result) {
 
             let testDetail = [];
 
@@ -125,7 +138,7 @@ function gTestLine(testCaseID) {
 function pTestDataSummary(req, res) {
     let newTest = req.body.testData;
     //first post the test summary
-    QAAModel.postTestDataSummary(newTest).then(function(result) {
+    postTestDataSummary(newTest).then(function(result) {
         if (result) {
             return (result.insertId);
         } else {
@@ -134,7 +147,7 @@ function pTestDataSummary(req, res) {
     //then extract all test line related to that testID, and add testData and testStatus to it 
     }).then(function(insertID) {
         let testID = JSON.stringify(insertID, undefined, 2);
-        QAAModel.getTestLine(insertID).then(function(criteria) {
+        getTestLine(insertID).then(function(criteria) {
             if (criteria != []) {
                 criteria.forEach(function(cri) {
                     cri.testData = 0
@@ -162,7 +175,7 @@ function pTestDataSummary(req, res) {
 ***/
 function pTestLine(req, res) {
     let newTest = req.body;
-    QAAModel.postTestline(newTest).then(function(result) {
+    postTestline(newTest).then(function(result) {
         if (typeof result != "undefined") {
             res.send(result);
         }
@@ -184,7 +197,7 @@ function pTestLine(req, res) {
 ***/
 function gLocation(req, res) {
 
-    QAAModel.getLocation().then(function(result) {
+    getLocation().then(function(result) {
         // console.log('result:',result);
         if (typeof result != 'undefined') {
 
@@ -208,7 +221,8 @@ function gLocation(req, res) {
     Time Complexity: O(Async) 
 ***/
 function gModels(req, res) {
-    QAAModel.getModels().then(function(result) {
+    getModels().then(function(result) {
+        console.log('result:',result);
         if (typeof result != 'undefined') {
             res.send(result);
         }
@@ -217,6 +231,7 @@ function gModels(req, res) {
             res.status(400).send({ 'Error': error.sqlMessage });
         else 
             res.status(400).send(error);  
+        // console.log("error:",error);
     })
 }
 
@@ -229,7 +244,7 @@ function gModels(req, res) {
     Time Complexity: O(Async) 
 ***/
 function gAllCriteria(req, res) {
-    QAAModel.getAllCriteria().then(function(result) {
+    getAllCriteria().then(function(result) {
         if (typeof result != 'undefined') {
             res.send(result);
         }
@@ -250,7 +265,7 @@ function gAllCriteria(req, res) {
     Time Complexity: O(Async) 
 ***/
 function gRangeValuesForRangeId(req, res) {
-    QAAModel.getRangeValuesForRangeId(req.params.rangeId).then(function(result) {
+    getRangeValuesForRangeId(req.params.rangeId).then(function(result) {
         if (typeof result != 'undefined') {
 
             res.send(result);
@@ -272,7 +287,7 @@ function gRangeValuesForRangeId(req, res) {
     Time Complexity: O(Async) 
 ***/
 function gUsers(req, res) {
-    QAAModel.getUsers().then(function(result) {
+    getUsers().then(function(result) {
         if (typeof result != 'undefined') {
             res.send(result);
         }
@@ -294,11 +309,11 @@ function gUsers(req, res) {
 ***/
 function gRolesByEmail(req, res) {
 
-    QAAModel.getRolesByEmail(req.params.email).then(function (result) {
+    getRolesByEmail(req.params.email).then(function (result) {
 
         if (typeof result[0] != 'undefined') {
 
-            var resultArray = [];
+            let resultArray = [];
             result.forEach(function (data) {
                 resultArray.push(data.role);
             })

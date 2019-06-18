@@ -1,15 +1,16 @@
-var express = require('express');
-var router = express.Router();
-var path = require('path');
+const express = require('express');
+const router = express.Router();
+const path = require('path');
 
-var viewPath = __dirname + '/../public/';
+const viewPath = __dirname + '/../public/';
 
 
-var QAAController = require('./../controller/summary.controller');
+const QAAController = require('./../controller/summary.controller');
 
 
 router.get('/', function(req, res) {
-    res.sendFile(path.resolve(viewPath + 'home.html'));
+    // res.sendFile(path.resolve(viewPath + 'home.html'));
+    res.send( ["Elie", "Matt", "Joel", "Michael"]);
 })
 
 

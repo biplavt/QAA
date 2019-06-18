@@ -1,5 +1,5 @@
-var {mySqlConfig} = require('./../configuration/prodDatabase.config.js');
-var makeConnection = require('./utility/utilityModel.js');
+const {mySqlConfig} = require('./../configuration/prodDatabase.config.js');
+const makeConnection = require('./utility/utilityModel.js');
 
 
 /***
@@ -11,7 +11,7 @@ var makeConnection = require('./utility/utilityModel.js');
 ***/
 function getTestDataSummary() {
 
-    var ourQuery = `SELECT testID, employeeID, EmployeeName, Location, ProductID, Product, QuantityInspected, 
+    let ourQuery = `SELECT testID, employeeID, EmployeeName, Location, ProductID, Product, QuantityInspected, 
         Date_Format(InspectionDate, '%m-%d-%Y') as InspectionDate, Status FROM QAA.TestSummary`;
 
     return makeConnection.mysqlQueryExecution(ourQuery, mySqlConfig);
@@ -25,7 +25,7 @@ function getTestDataSummary() {
     Time Complexity: O(Async)
 ***/
 function getTestDetailByTestId(testCaseID) {
- 
+    console.log("i");
     var ourQuery = `select Unit,testID, modelID, workCell,  QuantityInspected, criteriaName, criteriaID,rangeID, rangeIdeal, rangeLow, rangeHigh,testData, Status,testStatus
         from QAA.TestDetail where testID = ?`; //for testlines
 
@@ -41,7 +41,7 @@ function getTestDetailByTestId(testCaseID) {
 ***/
 function getTestDataSummaryByTestId(testCaseID) {
 
-    var ourQuery=`select testID, employeeID,locationID,modelID,Qty,verified,Date_Format(date, '%m-%d-%Y') as date from QAA.testData_TB where testID= ${testCaseID} `; //for testData
+    let ourQuery=`select testID, employeeID,locationID,modelID,Qty,verified,Date_Format(date, '%m-%d-%Y') as date from QAA.testData_TB where testID= ${testCaseID} `; //for testData
     return makeConnection.mysqlQueryExecution(ourQuery, mySqlConfig, testCaseID);
 }
 
@@ -55,7 +55,7 @@ function getTestDataSummaryByTestId(testCaseID) {
 function postTestDataSummary(input) {
 
     let values = [input.employeeID, input.locationID, input.modelID, input.Qty, 0]
-    var ourQuery = `Insert into QAA.testData_TB (employeeID, locationID, modelID,Qty,verified) values (?)`;
+    let ourQuery = `Insert into QAA.testData_TB (employeeID, locationID, modelID,Qty,verified) values (?)`;
     return makeConnection.mysqlQueryExecution(ourQuery, mySqlConfig, values);
 }
 
@@ -68,7 +68,7 @@ function postTestDataSummary(input) {
 ***/
 function getTestLine(testCaseID) {
 
-    var ourQuery = `select testID,criteriaID,modelID,criteriaName,rangeID,rangeIdeal,rangeLow,rangeHigh,Unit from QAA.testLine where testID = ? `;
+    let ourQuery = `select testID,criteriaID,modelID,criteriaName,rangeID,rangeIdeal,rangeLow,rangeHigh,Unit from QAA.testLine where testID = ? `;
     return makeConnection.mysqlQueryExecution(ourQuery, mySqlConfig, testCaseID);
 }
 
@@ -85,7 +85,7 @@ function postTestline(input) {
     //for first query( ourQuery)
     let bulkInsertValues = [];
 
-    var ourQuery = `Insert into QAA.testLineData_TB (testID, criteriaID, rangeID,testData,verified) values ?
+    let ourQuery = `Insert into QAA.testLineData_TB (testID, criteriaID, rangeID,testData,verified) values ?
         ON DUPLICATE KEY UPDATE 
             QAA.testLineData_TB.testData=VALUES(QAA.testLineData_TB.testData), 
             QAA.testLineData_TB.verified=VALUES(QAA.testLineData_TB.verified),
@@ -132,9 +132,9 @@ function postTestline(input) {
     Output: returns promise that contains the locations with id (locationID, locationName)
     Time Complexity: O(Async) 
 ***/
-function getLocation() {
-
-    var ourQuery = 'SELECT locationID,locationName FROM QAA.location_TB';
+function getLocation() {            //inner function that is mocked
+    console.log("inside prod");
+    let ourQuery = 'SELECT locationID,locationName FROM QAA.location_TB';
     return makeConnection.mysqlQueryExecution(ourQuery, mySqlConfig);
 }
 
@@ -148,7 +148,7 @@ function getLocation() {
 ***/
 function getModels() {
 
-    var ourQuery = 'SELECT modelID, modelName FROM QAA.model_TB';
+    let ourQuery = 'SELECT modelID, modelName FROM QAA.model_TB';
     return makeConnection.mysqlQueryExecution(ourQuery, mySqlConfig);
 }
 
@@ -161,7 +161,7 @@ function getModels() {
     Time Complexity: O(Async) 
 ***/
 function getAllCriteria() {
-    var ourQuery = 'SELECT criteriaID, criteriaName FROM QAA.criteria_TB';
+    let ourQuery = 'SELECT criteriaID, criteriaName FROM QAA.criteria_TB';
     return makeConnection.mysqlQueryExecution(ourQuery, mySqlConfig);
 }
 
@@ -173,7 +173,7 @@ function getAllCriteria() {
     Time Complexity: O(Async) 
 ***/
 function getRangeValuesForRangeId(rangeId) {
-    var ourQuery = `SELECT rangeIdeal, rangeLow, rangeHigh FROM QAA.range_TB WHERE rangeID = ? `;
+    let ourQuery = `SELECT rangeIdeal, rangeLow, rangeHigh FROM QAA.range_TB WHERE rangeID = ? `;
     return makeConnection.mysqlQueryExecution(ourQuery, mySqlConfig, rangeId);
 }
 
@@ -185,7 +185,7 @@ function getRangeValuesForRangeId(rangeId) {
     Time Complexity: O(Async) 
 ***/
 function getUsers() {
-    var ourQuery = 'SELECT employeeID, name FROM QAA.user_TB';
+    let ourQuery = 'SELECT employeeID, name FROM QAA.user_TB';
     return makeConnection.mysqlQueryExecution(ourQuery, mySqlConfig);
 }
 
@@ -198,7 +198,7 @@ function getUsers() {
 ***/
 function getRolesByEmail(email) {
 
-    var ourQuery = `SELECT C.role 
+    let ourQuery = `SELECT C.role 
         FROM HawsWA.Users_TB A 
         LEFT JOIN
             HawsWA.Users_Role_TB B

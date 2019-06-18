@@ -13,7 +13,7 @@ var mysqlQueryExecution = function (ourQuery, config, values) {
 				reject(error);
 
 			else {
-
+				// console.log('result:',result);
 				resolve(result);
 
 			}
