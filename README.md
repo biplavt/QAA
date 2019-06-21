@@ -1,5 +1,5 @@
 # QAA
-Backend server for Haws' Rep Portal (written in Node.Js)
+Backend server for Quality Assessment Tool (written in Node.Js)
 
 <h2>Architecture:</h2>
 <div>
